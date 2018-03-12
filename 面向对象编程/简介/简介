@@ -1,0 +1,267 @@
+python面向对象编程：
+对象：具有明显的一类特性，有自己的属性和操作方法，包括成员变量和方法
+
+类(Class)：用来描述具有相同的属性和方法的对象集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例
+类变量：类变量在整个实例化的对象中是公用的，类变量定义在类中且在函数体之外。类变量通常不作为实例变量使用
+数据成员：类变量或者实例变量用于处理类及其实例对象的相关的数据
+方法重写：如果从父类集成的方法不能满足子类的需求，可以对其进行改写，这个过程叫方法的覆盖(override)，也称方法的重写
+实例变量：定义在方法中的变量，只作用于当前实例的类
+继承：即一个派生类(derived class)继承基类(base class)的字段和方法。继承也允许把一个派生类的对象作为一个基类对象对待。例如，有这样一个设计，一个Dog类型的对象派生自Animal类，这是模拟是一个(is-a)关系
+实例化：创建一个类的实例，类的具体对象
+方法：类中定义的函数
+对象：通过类定义的数据结构实例。对象包括两个数据成员(类变量和实例变量)和方法
+
+
+对象：
+对象是面向对象方法中的核心概念，也是理解面向对象技术的关键
+对象是描述其属性的数据以及对这些数据施加的一组操作封装在一起构成的统一体。程序中所有东西都是对象，可以将对象想象成一种新类型的变量，它保存着数据，对外提供服务，对自己的数据进行操作
+程序是一系列对象的集合，对象之间通过消息传递机制组合起来，相互调用彼此的方法，实现程序的复杂功能
+每个对象都有自己的存储空间，可以容纳其他对象。利用封装机制，可以以现有对象为基础构造出新的对象，因此，虽然对象的概念很简单，但程序中可以实现任意复杂的对象
+每个对象都有一种类型。每个对象都是某个类的一个实例，其中类是类型type的同义词。类最主要的特征是对外接口
+同一类型的所有对象都能够接收相同的消息，子类与父类具有’同一类型‘
+状态保存在一组变量中，行为通过方法实现
+对象的方法一方面把对象的内存变量包裹、保存起来，使得只有对象自己的方法才能操作这些内部变量；另一方面，对象的方法还是对象与外部环境和其他对象交互通信的接口，外界对象通过这些接口驱动对象指定的行为，提供相应的服务
+
+class定义的类在程序中称为一种抽象数据类型，它是面向对象编程设计语言的基本概念，定义好类后，我们就可以像使用其他数据类型一样，声明该类的变量并创建该变量所指向的对象，然后通过该变量调用对象的方法实现对象的操作
+将类实例化就得到了现实世界实体的面向对象的映射----对象
+类描述了同一类对象都具有的数据和行为
+
+
+
+
+
+
+
+创建类：
+使用class语句来创建一个新类，class之后为类的名称，类名后有一括号，括号中为基类()
+可以有多个基类，然后以冒号结尾
+class ClassName(BaseClass1,BaseClass2...):object
+    class suite	#类体
+类的帮助信息通过ClassName.__doc__查看
+Class_suite由类成员、方法、数据属性组成
+
+#coding=utf-8
+class Employee(object):
+    #所有员工基类
+    empCount=0
+
+def __init__(self,name,salary):
+    #类的构造函数
+    self.name=name
+    self.salary=salary
+    Employee.empCount+=1
+
+def displayCount(self):
+    #类方法
+    print "total employee",Employee.empCount
+def displayEmployee(self):
+    print "name:",self.name,"salary:",self.salary
+
+empCount变量是一个类变量(也叫静态变量)，它的值将在这个类的所有实例之间共享，你可以在内部类或外部类使用Employee.empCount访问
+类中第一个方法__init__()是一种特殊方法，被称作类的构造方法或初始化方法，只要创建类的实例，就会调用这个方法，如果没有显示定义这个方法，默认会给一个空的构造方法
+类方法中参数中的self，代表实例本身，相当于java中的this指针，并且类中所有的方法中必须有self，并且写在第一个参数位置
+所有类都是继承至基类object
+
+创建实例对象：
+要创建一个类的实例，可以使用类的名称，并通过__init__()方法来接受参数，创建一个类的具体对象。每次从类产生实例时，python都会自动调用名为__init__的方法，也就是类的构造方法，进行数据初始化。新实例会如往常那样传入__init__的self参数，该方法也会在类中被继承
+#This would create first object of Employee class
+emp1=Employee('joy',10000)
+'''This would create second object of Employee clas'''
+emp2=Employee('sr',15000)
+
+访问类的实例方法或属性：
+类通过函数(在class语句内由def语句编写的)为实例提供行为。因为这种嵌套的def会在类中对变量名进行赋值，实际效果就是把属性添加到类对象之中，从而可以由所有实例和子类继承
+这种def语句块出现在类内部时，通常就叫方法，而且会自动接收第一个特殊参数(通常为self)，这个参数提供了被处理的实例的参照值，并且一定是明确写出来的
+方法对象的属性及方法，需要使用(.)来访问。如果访问类变量，既可以直接使用类名称访问，也可以用类的实例名称访问。
+注意：
+在实例化类时，不需要再显示写self参数，会默认带入，表示指向实例本身
+emp1.displayEmployee()
+emp2.displayEmployee()
+print "Total Emplpyee %d" % Employee.empCount
+
+动态添加、修改、删除类的属性：
+
+使用函数来操作对象的属性：
+1、getattr(obj,name[,default])：访问对象的属性，如果存在返回对象属性的值，否则抛出AttributeError异常
+2、hasattr(obj,name):检查是否存在某个属性，存在返回true，否则返回false
+3、setattr(obj,name,value):设置一个属性，如果属性不存在，会创建一个新属性，该函数无返回值，若存在则更新这个值
+4、delattr(obj,name)：删除属性，如果属性不存在则抛出AttributeError异常，该函数也无返回值
+
+
+python内置类属性：
+python有如下内置的类属性：
+ __dict__：类的属性(包含一个字典，由类的数据属性组成)
+__doc__：类的文档字符串，也就是类的帮助信息
+__name__：类名
+__modeule__：类定义所在的模块(类的全名是'__main__className',如果类位于一个导入模块mymod中，那么className.__module__等于mymod)
+__base__：类的所有父类(包含了所有父类组成的元组)
+
+类变量：
+Python中类变量也叫类的静态成员变量或类属性，类变量在整个实例化对象中是公用的。类变量定义在类中且在函数体外，类变量通常不作为实际变量使用，它的值在这个类的所有实例之间共享
+类量紧接在类名后面定义，相当于java和c++的static变量
+实例‘变量在__init__()函数里定义，相当于java和c++的普通变量
+示例：
+class Parent(object):	#define parent class
+    parentAttr=100	#类变量
+    def __init__(self):
+        self.name="zhangsan"
+    print "Calling parent construct"
+#parentAttr变量就是一个类变量，name就是一个实例变量
+
+类是不能访问实例变量的
+
+类变量既可以通过类变量名直接调用，也可以通过实例对象名调用
+
+类名.属性名=value这种方式添加的，那这个属性就是类的类属性，其所有的实例对象都可以访问，但是如果通过类的某个实例对象去添加的，就像 实例名.属性名=value，这种添加方式，那这个属性只属于这个实例对象所有，并且如果所添加的属性名与类中类属性名相同时，类属性在这个实例对象中就会被屏蔽掉，也就是说实例引用时，同名的实例属性会屏蔽同名的类属性，就类似于全局变量与局部变量的关系
+
+
+1、当访问类实例时，访问某个变量，变量为实例变量，则返回实例变量的值，不会访问同名的类变量
+2、但访问类实例时，访问某个变量，变量不是实例变量，则返回类变量的值
+3、当访问类实例时，访问某个变量，变量不是实例变量，也不是类变量，报错
+4、类变量，可以通过类名访问，也可以通过类实例访问
+5、实例变量可以访问类变量，类变量不能访问实例变量
+
+实例变量：
+实例变量时在 __init__函数里定义的，相当于java和c++的普通变量，只作用于当前类的实例。实例变量前面需要加上self关键字，表示执行实例本身
+#coding=utf-8
+class Person(object):
+    id=12		#类静态成员在此定义，注意缩进
+    def __init__(self,name):
+        self.name=name	#类的实例变量
+p=Person('linda')
+print p.name	#访问对象的实例变量
+
+局部变量：
+在类的实例方法中定义的变量，叫做局部变量，其作用域仅限于其所在的函数内部，执行到该函数，局部变量生成，函数退出后，局部变量消亡
+#coding=utf-8
+class Person(object):
+    id=12
+    def __init__(self,name):
+        self.name=name	#类的实例变量
+ self.inName='ads'	#类的实例变量
+    def getName(self):
+ name='Lucy'	#局部变量
+ return self.name,name
+p=Person("linda")
+print p.name	#访问对象的实例变量
+#通过函数访问实例变量和局部变量
+res=p.getName()
+print res
+
+类方法：
+类方法是类对象所拥有的方法，在类的内部使用关键字def定义的方法，但与一般方法不同的是，需要用修饰器"@classmethod"来标识其为类方法，并且在定义类方法时需要把类本身的实例(cls,指向该类本身)作为参数传进入
+类方法既可以直接使用类名去调用，也可以使用类的实例去调
+#coding=utf-8
+class Person(object):
+    id=12	#类静态成员在这定义，注意缩进
+    def __init__(self,name):
+        self.name=name
+        self.__inName='ads'
+    @classmethod 	#类方法定义，用注解方式说明
+    def up(cls,a):	#这是cls，而不是self
+ print cls,cls__name__
+ return a+1
+#创建类的实例
+p=Person("aplha")
+#调用类方法
+print Person.up(20)	#类名直接调用
+print p.up(12)	#通过实例对象调用
+
+修改类属性：
+修改类属性的值，有三种方法， 分别为：
+1、通过类方法修改
+2、通过实例方法修改
+3、直接通过类对象修改
+
+#coding=utf-8
+'''修改类属性的值，有三种方法，分别是：
+1、通过类方法修改
+2、通过实例方法修改
+3、直接通过类对象修改
+'''
+class employee(object):
+    city='Bj'   #类属性
+    def __init__(self,name):
+        self.name=name  #实例变量
+
+    #定义类方法
+    @classmethod
+    def getCity(cls):
+        return cls.city
+
+    #定义类方法
+    @classmethod
+    def setCity(cls,city):
+        cls.city=city
+    #实例方法
+    def set_City(self,city):
+        employee.city=city
+
+emp=employee('joy') #创建类的实例
+print emp.getCity() #通过对象实例引用类方法
+print employee.getCity()    #通过类对象引用类方法
+
+emp.setCity('T')#实例对象调用类方法改变类属性的值
+print emp.getCity()
+print employee.getCity()
+
+employee.setCity('CD')  #类对象调用类方法改变类属性的值
+print emp.getCity()
+print employee.getCity()
+
+employee.city=20 #直接修改类属性的值
+print emp.getCity()
+print employee.getCity()
+
+静态方法：
+静态方法是在类内部使用关键字def定义的方法，但与其他方法不同的是，需要用修饰器"@staticmethod"来标识其为静态方法，并且在定义静态方法时不需要传入任何隐式参数
+静态方法既可以直接使用类名去调用，还可以使用类的实例去调
+#coding=utf-8
+class Person(object):
+    id=12	#类静态成员在这定义，注意缩进
+    def __init__(self.name):
+        self.name=name
+ self.__inName='ads'
+
+@staticmethod	 	#类静态方法定义，用注解方式说明
+def down(b):		#  静态方法不需要self，cls变量
+    id=13
+    print u"类变量id=",id
+    return b-1
+#创建类的实例
+p=Person("alpha")
+#调用静态方法
+print Person.down(15)	#类名直接调用
+print p.down(19)		#通过实例对象调用
+
+实例方法：
+实例方法是类中定义的普通方法，定义时需要传入隐式参数self，且为第一个参数，调用时则不需要，并且只能通过实例调用
+#coding=utf-8
+class Person(object):
+    id=12	#类静态成员在这定义，注意缩进
+    def __init__(self,name):
+        self.name=name
+        self.__inName='ads'
+    def getName(self):	#实例方法，需要传入self参数
+return self.name
+#创建类的实例
+p=Person('aplha')
+#通过调用实例对象，无法通过类对象调用
+print p.getName()
+
+总结：
+正常逻辑上类方法发应当只能被类对象调用，它只属于类本身所有，实例方法只能被实例调用，它只属于类的单个实例拥有，静态方法两者都能调用，它在类和实例间共享，python实现了一定的灵活性使得类方法和静态方法，都能够被实例和类二者调用
+所以三者区别在于参数传递上的区别，实例方法隐含传的参数是类实例self，而类方法隐含传递的参数是类本身cls，而静态方法无隐含参数，主要为了类实例也可以直接调用静态方法
+
+Python类中隐藏数据：
+python中经常会看到类中定义的方法名前后有下划线的情况，这些表示的意思？
+类中的方法名前后都有两个下划线，表示Python的内置方法，如__init__()
+类中的方法名前面有两个下划线，表示python中的私有方法，类似于java中的private，不能在类外部调用(如_setId())
+类中的属性前有两个下划线表示声明该属性为私有属性，不能在类的外部被使用或直接访问，如__name
+
+
+
+
+
+
+
