@@ -1,0 +1,25 @@
+subprocess模块用subprocess.Popen类来创建进程，并与进程进行复杂的交互，其构造函数如下
+__init__(self,args,bufsize=0,executable=None,stdin=None,stdout=None,stderr=None,
+preexec_fn=None,close_fds=False,shell=False,cwd=None,env=None,universal_newlines=False,
+startupinfo=None,creationflags=0)
+主要参数说明：
+args:
+args should be a string or a sequence of program arguments
+也就是说必须是一个字符串或者序列类型(如，字符串，list、元组)，用于指定进程的可执行文件
+及其参数，如果是一个序列类型参数，则序列的第一个元素通常都必须是一个可执行文件的路径，当
+然也可以使用executable参数来指定可执行文件的路径
+
+bufsize：
+如果指定了bufsize参数作用就和内建函数open()一行，0表示不缓冲，1表示行缓冲，其他正数表示
+近似的缓冲区字节数，负数表示使用系统默认值，默认是0
+
+stdin.stdout.stderr
+分别表示程序的标准输入、标注输出、标准错误，有效的值可以是PIPE，存在的文件描述符，存在的文件
+对象或None，如果为None需从父进程继承过来；stdout可以是PIPE，表示对子进程创建一个管道，stderr
+可以是STDOUT，表示标准错误数据应该从应用程序中捕获并作为标准输出流stdout的文件句柄
+
+shell：
+如果这个参数设置为True，程序将通过shell来执行
+
+env：
+它描述的是子进程的环境变量，如果为None，子进程的环境变量将从父进程继承而来

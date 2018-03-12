@@ -1,0 +1,17 @@
+使用execute(）函数执行查询sql语句后，得到的只是受影响的行数，并不能真正拿到
+我们查询的内容。
+这里游标cursor中提供了三种提取数据的方法fetchone、fetchmany、fetchall，每个方法都会
+导致游标游动，所以必须注意游标的位置
+cursor.fetchone()
+获取游标所在处的一行数据，没有则返回None
+
+cursor.fetchmany(size=None)
+接收size条返回结果行，如果size的值大于返回的结果行的数量，则会返回cursor.arraysize条数据
+
+cursor.fetchall()
+接收全部的返回结果行
+
+注意：
+这些行数返回的结果数据均来自execute()函数查询的结果集。如果execute()结果集中
+没有数据，将会返回空元组
+

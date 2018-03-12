@@ -1,0 +1,12 @@
+example02   : INFO     开始测试:
+2017-11-20 11:03:19 remote_connection.py[line:478] DEBUG POST http://127.0.0.1:6343/session {"capabilities": {"alwaysMatch": {"acceptInsecureCerts": true, "browserName": "firefox"}, "firstMatch": [{}]}, "desiredCapabilities": {"acceptInsecureCerts": true, "browserName": "firefox"}}
+2017-11-20 11:03:34 remote_connection.py[line:565] DEBUG Finished Request
+example02   : INFO     访问126首页
+2017-11-20 11:03:34 remote_connection.py[line:478] DEBUG POST http://127.0.0.1:6343/session/90000768-7868-4cc7-a644-dc8e46903ab4/url {"url": "http://mial.126.com", "sessionId": "90000768-7868-4cc7-a644-dc8e46903ab4"}
+2017-11-20 11:03:39 remote_connection.py[line:565] DEBUG Finished Request
+example02   : INFO     断言是否有登录2个字
+2017-11-20 11:03:41 remote_connection.py[line:478] DEBUG GET http://127.0.0.1:6343/session/90000768-7868-4cc7-a644-dc8e46903ab4/source {"sessionId": "90000768-7868-4cc7-a644-dc8e46903ab4"}
+2017-11-20 11:03:41 remote_connection.py[line:565] DEBUG Finished Request
+2017-11-20 11:03:41 remote_connection.py[line:478] DEBUG DELETE http://127.0.0.1:6343/session/90000768-7868-4cc7-a644-dc8e46903ab4 {"sessionId": "90000768-7868-4cc7-a644-dc8e46903ab4"}
+2017-11-20 11:03:42 remote_connection.py[line:565] DEBUG Finished Request
+example02   : INFO     结束测试:

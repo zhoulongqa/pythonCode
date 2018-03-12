@@ -1,0 +1,48 @@
+Python的json模块序列化和反序列化分别是dumps和loads
+json.dumps():将一个python对象编码成JSON字符串
+json.loads():将JSON格式字符串编码成Python对象
+对简单的数据类型可以直接处理。
+如：string，Unicode，int，float，list，tuple，dict
+
+
+JSON：JavaScript Object Notation(JavaScript对象表示法)
+JSON 是存储和交换文本信息的语法。类似XML
+JSON 比XML更小、更快，更易解析
+
+JSON语法：
+JSON语法是JavaScript语法的子集
+
+JSON语法规则：
+JSON语法是JavaScript对象表示法语法的子集
+数据再名称/值对中
+数据由逗号分隔
+花括号保存对象
+方括号保存数组
+
+JSON数据的书写格式是：
+    名称/值对
+名称/值对包括字段名称(在双引号中用)，后面写一个冒号，然后是值，比如：
+"firstName":"John"
+等价于下面这条JavaScript语句：
+firstName="John"
+
+JSON值可以是：
+数字(整数或浮点数)
+字符串(在双引号中)
+逻辑值(true或false)
+数组(在方括号中)
+对象(在花括号中)
+null
+
+JSON对象是在花括号中书写的。对象可以包含多个名称/值对。比如：
+{"firstName":"Jhon","lastName":"Doe"}
+这等价于JavaScript语句
+firstName="John"
+lastName="Doe"
+
+
+JSON数组：
+JSON数组是在方括号中书写的。数组中可以包含多个对象
+
+
+

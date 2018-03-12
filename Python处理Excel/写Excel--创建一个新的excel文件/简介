@@ -1,0 +1,7 @@
+out=openpyxl.Workbook()
+使用该类，创建一个新的待写的excel文件实例
+注意Workbook中的w是大写的，这样我们就在内存中创建了一个新的待写的excel文件
+但是这个文件仅存在于内存中，需要调用save()函数保存后才能真正写入磁盘
+该类的构造方法：
+__init__(self,optimized_write=False,encoding="utf-8",guess_types=False,data_only=False,read_only=False,write_only=False)
+从构造函数可以看出，该类也有很多能够设置的参数

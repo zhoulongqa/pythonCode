@@ -1,0 +1,10 @@
+Multiprocessing模块创建进程使用的是Process类
+Process类的构造方法：
+help(multiprocessing.Process)
+__init__(self,group=None,target=None,name=None,args=(),kwargs={})
+参数说明：
+group:进程所属组，基本不用
+target：表示调用对象，一般为函数
+args：表示调用对象的位置参数元组
+name：进程别名
+kwargs：表示调用对象的字典

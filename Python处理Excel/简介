@@ -1,0 +1,6 @@
+openpyxl模块操作excel
+Python提供了很多包来处理excel，比如xlrd、xlwt、xlutils、pyExcelator等，但是它们都比较老，
+并且只能支持到excel2003，虽然一般的应用其实足够了，但是如果遇到要导出大量的数据的需求时，
+excel2003就不够用了，这时Openpyxl模块出现了，支持07+的excel处理，也就是后缀为.xlsx的excel文件
+安装openpyxl包：pip install openpyxl
+

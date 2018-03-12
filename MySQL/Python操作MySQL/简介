@@ -1,0 +1,148 @@
+Python标准数据库接口为Python DB-API，其提供了数据库应用编程接口，
+python数据库接口支持很多数据库，如：
+MySQL
+PostgreSQL
+Microsoft SQL Server 2000
+Oracle
+不同的数据库需要不同的DB-API模块，比如要访问Oracle数据库，需要下载Oracle数据库模块
+DB-API是一个规范，定义了一系列必须的对象和数据库存取方式，以便为各种各样的底层数据库系统和多种多样的数据库接口程序提供一致的访问接口，使用它连接各数据库后，就可以使用相同的方式操作数据库
+Python DB-API使用流程：
+引入API模块	import MySQLdb
+获取与数据库的连接
+执行SQL与具有和存储过程
+关闭数据库连接
+
+安装mysqldb
+1、什么是mysqldb
+mysqldb是用于python链接mysql数据库的接口，它实现了python数据库api规范V2.0，基于mysql c api建立的
+windows下安装mysqldb
+下载地址：http://www.codegood.com/archives/4
+如果下载的是exe文件，跟windows普通软件安装方法一样，一直下一步就行
+如果下载的是压缩文件，解压，cmd下进入setup.py所在目录，执行如下命令：
+ python setup.py install
+2、Linux下安装MySQLdb
+下载地址：https://pypi.python.org/pypi/MySQL-python
+$gunzip MySQL-python-1.2.2.tar.gz
+$tar -xvf MySQL-python-1.2.2.tar
+$cd MySQL-python-1.2.2
+$python setup.py build
+$python setup.py install
+
+连接数据库：
+连接数据库前，必须确保一下事项：
+1.已经安装了mysql服务端
+2、已经创建了数据库、数据表、表中添加了数据
+3、连接数据库使用的用户名、密码、以及数据库服务所在机器的ip、端口号、用户拥有访问数据的权限
+4、你的机器上已经安装了Python MySQLdb模块
+
+连接数据库函数(connect()):
+conn=MySQLdb.connect(host=ip,port=port_num,user=username,passwd=passwd,db=database_name,charset=encoding)
+host:mysql服务器所在机器的ip
+port:表示连接所使用的端口号
+user：连接数据库时所用的用户名
+passwd：连接数据库时所使用的用户的密码
+db：要连接数据库的库名
+charse：连接数据库时使用的编码
+
+获取游标：
+想要操作数据库，光连接数据库时不够的，必须拿到操作数据库的游标，才能进行后续的操作，比如读取数据，添加数据等。通过获得到的数据库连接实例conn下的cursor()方法来创建游标。游标用来接收返回结果
+mysql本身不支持游标，但是mysqldb对游标进行了仿真。cursor()函数也是返回一个游标实例对象，在这个实例对象中，内建了很多操作数据的方法，比如执行sql语句
+
+连接数据库：
+#encoding=utf-8
+import MySQLdb
+conn=MySQLdb.connect(
+    host='localhost',
+    port=3306,
+    user='root',
+    passwd='root',
+    db="userInfo",
+    charset="utf-8")
+#使用cursor()方法获取数据库操作游标
+cursor=conn.cursor()
+print conn
+print type(conn)
+
+
+执行sql语句：
+Mysqldb模块执行sql的重要方法有execute和executemanv
+execute(query,args=None)
+execute执行单条sql语句，成功后返回受影响的行数，长整型；
+参数说明：
+query：要执行的sql语句，字符串类型
+args：可选的序列或映射，用于query的参数值，如果args为序列，query中必须使用%s做占位符；如果args为映射，query中必须使用%(key)s做占位符
+
+executemany(query,args):
+该方法用于批量执行sql语句，比如批量插入数据，返回受影响的行数，长整型
+参数说明：
+query:要执行的sql语句，字符串类型
+args：嵌套的序列或映射，用于query的参数值
+数据库性能瓶颈很大一部分就在于网络IO和磁盘IO，将多个sql语句放在一起，只执行一次IO，可以有效的提升数据库性能。推荐此方法
+注意：
+用executemany()方法一次性批量执行sql语句，固然很好，但是当数据一次传入过多到server端，可能造成server端的buffer溢出，也可能产生一些意想不到的麻烦，所以，合理、分批次使用executemany是个合理的办法
+
+
+建库：
+#encoding=utf-8
+import MySQLdb
+try:
+    conn=MySQLdb.connect(
+        host='127.0.0.1',
+	user='root',
+	passwd='root',
+	port='3306')
+    cur=conn.cursor()
+    cur.execute("create database if not exists pythonDB default charset utf8 collate utf8_general_ci;")
+    cur.close()
+    conn.close()
+    print u"创建数据库pythonDB成功!"
+except MySQLdb.error,e:
+    print "Mysql error %d:%s" % (e.args[0],e.args[1])
+
+查询数据：
+使用execute()函数执行查询sql语句后，得到的只是受影响的行数，并不能真正拿到我们查询的内容，游标cursor中提供了三种提取数据的方法fetchone,fetchmany,fetchall，每个方法都会导致游标游动，所以必须注意游标的位置
+cursor.fetchone()
+获取游标所在处的一行数据，没有则返回None
+
+cursor.fetchmany(size=None)
+接收size条返回结果行，如果size的值大于返回的结果行的数量，则会返回cursor.arraysize条数据
+
+cursor.fetchall()
+接收全部的返回结果行
+
+注意：这些函数返回的结果数据均来自execute()函数查询的结果集。如果execute()结果集中没有数据，将会返回空元组
+
+
+
+#encoding=utf-8
+'''重置游标位置
+通过fetchone()、fetchmany()、fetchall()这些方法提取数据后，游标会向后移动相应个数
+的位置，如果我们想回头去查询已经查询过的数据，这个时候就需要重置游标的位置了，正好
+MySQLdb提供了一个重置游标的方法：scroll(value,mode='relative')
+移动指针到参数value指定的行。如果mode='relative',则表示从当前所在行前移value行，
+如果mode='absolute',则表示相对结果集的第一行向前移动value行。游标索引从0开始'''
+import MySQLdb
+#打开数据库连接
+conn=MySQLdb.connect(
+    host='localhost',
+    port=3306,
+    user='root',
+    passwd='123123',
+    db='pythondb',
+    charset='utf8')
+#使用cursor()方法获取数据库的操作游标
+cursor=conn.cursor()
+
+cursor.execute("select * from user")
+print u"当前游标所在位置：",cursor.rownumber
+print u"表中所有数据："
+for i in cursor.fetchall():
+    print i
+print u"当前游标所在位置：",cursor.rownumber
+print u"将游标重置到索引号为0的位置"
+s=cursor.scroll(0,mode="absolute")
+print u"当前游标所在位置:",cursor.rownumber
+
+
+
+
